@@ -1,4 +1,7 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
+import { useState, useEffect } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
 
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -26,14 +29,34 @@ export const CreateUserForm = ({ onToggleForm }: Props) => {
    const user = useAppSelector((state: RootState) => state.auth.user);
    const isAuth = useAppSelector((state: RootState) => state.auth.isAuth);
    const dispatch = useAppDispatch();
+   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-   const [formData, setFormData] = useState<CreateUserData>({
+   const createUserSchema = Yup.object().shape({
+      username: Yup.string()
+         .required('Username is required')
+         .matches(/^[\w.@+-]+$/, 'Invalid username format')
+         .max(150, 'Username must be at most 150 characters')
+         .min(1, 'Username must be at least 1 character'),
+      email: Yup.string()
+         .required('Email is required')
+         .email('Invalid email address')
+         .max(254, 'Email must be at most 254 characters'),
+      password: Yup.string()
+         .required('Password is required')
+         .max(128, 'Password must be at most 128 characters')
+         .min(1, 'Password must be at least 1 character'),
+   });
+
+   const defaultValues = {
       username: '',
       email: '',
       password: '',
-   });
+   };
 
-   const [showPassword, setShowPassword] = useState<boolean>(false);
+   const methods = useForm<CreateUserData>({
+      resolver: yupResolver(createUserSchema),
+      defaultValues,
+   });
 
    useEffect(() => {
       if (isAuth || user) {
@@ -41,23 +64,10 @@ export const CreateUserForm = ({ onToggleForm }: Props) => {
       }
    }, [isAuth, user, dispatch])
 
-
-   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setFormData((prev) => ({
-         ...prev,
-         [e.target.name]: e.target.value,
-      }));
-   }
-
-   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+   const onSubmit = methods.handleSubmit((formData: CreateUserData) => {
       dispatch(createUser(formData));
-      setFormData({
-         username: '',
-         email: '',
-         password: '',
-      })
-   };
+      methods.reset();
+   });
 
    return (
       <>
@@ -85,13 +95,24 @@ export const CreateUserForm = ({ onToggleForm }: Props) => {
 
                <form onSubmit={onSubmit}>
                   <Stack spacing={3}>
-                     <TextField name="username" label="Username" onChange={onChange} />
-                     <TextField name="email" label="Email address" onChange={onChange} />
+                     <TextField
+                        {...methods.register('username')}
+                        label="Username"
+                        error={!!methods.formState.errors.username}
+                        helperText={methods.formState.errors.username?.message}
+                     />
+                     <TextField
+                        {...methods.register('email')}
+                        label="Email address"
+                        error={!!methods.formState.errors.email}
+                        helperText={methods.formState.errors.email?.message}
+                     />
 
                      <TextField
-                        name="password"
+                        {...methods.register('password')}
                         label="Password"
-                        onChange={onChange}
+                        error={!!methods.formState.errors.password}
+                        helperText={methods.formState.errors.password?.message}
                         type={showPassword ? 'text' : 'password'}
                         InputProps={{
                            endAdornment: (

@@ -1,4 +1,7 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
+import { useState, useEffect } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
 
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -26,13 +29,29 @@ export const RetrieveUserForm = ({ onToggleForm }: Props) => {
    const user = useAppSelector((state: RootState) => state.auth.user);
    const isAuth = useAppSelector((state: RootState) => state.auth.isAuth);
    const dispatch = useAppDispatch();
+   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-   const [formData, setFormData] = useState<RetrieveUserData>({
-      username: '',
-      password: '',
+   const retrieveUserSchema = Yup.object().shape({
+      username: Yup.string()
+         .required('Username is required')
+         .matches(/^[\w.@+-]+$/, 'Invalid username format')
+         .max(150, 'Username must be at most 150 characters')
+         .min(1, 'Username must be at least 1 character'),
+      password: Yup.string()
+         .required('Password is required')
+         .max(128, 'Password must be at most 128 characters')
+         .min(1, 'Password must be at least 1 character'),
    });
 
-   const [showPassword, setShowPassword] = useState<boolean>(false);
+   const defaultValues = {
+      username: '',
+      password: '',
+   };
+
+   const methods = useForm<RetrieveUserData>({
+      resolver: yupResolver(retrieveUserSchema),
+      defaultValues,
+   });
 
    useEffect(() => {
       if (isAuth || user) {
@@ -40,23 +59,11 @@ export const RetrieveUserForm = ({ onToggleForm }: Props) => {
       }
    }, [isAuth, user, dispatch])
 
-
-   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setFormData((prev) => ({
-         ...prev,
-         [e.target.name]: e.target.value,
-      }));
-   }
-
-   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      localStorage.setItem('userData', JSON.stringify(formData));
+   const onSubmit = methods.handleSubmit((formData: RetrieveUserData) => {
       dispatch(retrieveUser());
-      setFormData({
-         username: '',
-         password: '',
-      })
-   };
+      localStorage.setItem('userData', JSON.stringify(formData));
+      methods.reset();
+   });
 
    return (
       <>
@@ -76,7 +83,7 @@ export const RetrieveUserForm = ({ onToggleForm }: Props) => {
                      sx={{ ml: .5, color: 'blue' }}
                      onClick={() => onToggleForm()}
                   >
-                     Sign In
+                     Sign Up
                   </Link>
                </Typography>
 
@@ -84,12 +91,18 @@ export const RetrieveUserForm = ({ onToggleForm }: Props) => {
 
                <form onSubmit={onSubmit}>
                   <Stack spacing={3}>
-                     <TextField name="username" label="Username" onChange={onChange} />
+                     <TextField
+                        {...methods.register('username')}
+                        label="Username"
+                        error={!!methods.formState.errors.username}
+                        helperText={methods.formState.errors.username?.message}
+                     />
 
                      <TextField
-                        name="password"
+                        {...methods.register('password')}
                         label="Password"
-                        onChange={onChange}
+                        error={!!methods.formState.errors.password}
+                        helperText={methods.formState.errors.password?.message}
                         type={showPassword ? 'text' : 'password'}
                         InputProps={{
                            endAdornment: (
