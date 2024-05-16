@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom'
 
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -15,8 +16,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
-import { RootState } from '../store/store';
+import { useAppDispatch } from '../hooks/redux-hooks';
 import { createUser } from '../features/auth/auth-slice';
 import { CreateUserData } from '../types/auth';
 
@@ -26,9 +26,8 @@ type Props = {
 
 export const CreateUserForm = ({ onToggleForm }: Props) => {
 
-   const user = useAppSelector((state: RootState) => state.auth.user);
-   const isAuth = useAppSelector((state: RootState) => state.auth.isAuth);
    const dispatch = useAppDispatch();
+   const navigate = useNavigate();
    const [showPassword, setShowPassword] = useState<boolean>(false);
 
    const createUserSchema = Yup.object().shape({
@@ -58,14 +57,12 @@ export const CreateUserForm = ({ onToggleForm }: Props) => {
       defaultValues,
    });
 
-   useEffect(() => {
-      if (isAuth || user) {
-         // navigate('/tasks')
-      }
-   }, [isAuth, user, dispatch])
-
    const onSubmit = methods.handleSubmit((formData: CreateUserData) => {
-      dispatch(createUser(formData));
+      dispatch(createUser(formData))
+         .unwrap()
+         .then(() => {
+            navigate('/emails');
+         })
       methods.reset();
    });
 
@@ -76,7 +73,7 @@ export const CreateUserForm = ({ onToggleForm }: Props) => {
             justifyContent="center"
             sx={{ height: 1, backgroundColor: 'primary.main' }}
          >
-            <Card sx={{ p: 5, width: 1, maxWidth: 420 }} >
+            <Card sx={{ p: 5, width: 1, maxWidth: 420, border: 1, borderColor: '#1976d2' }} >
 
                <Typography variant="h4">Sign Up</Typography>
                <Typography variant="body2" sx={{ my: 2 }}>
@@ -126,7 +123,6 @@ export const CreateUserForm = ({ onToggleForm }: Props) => {
                            ),
                         }}
                      />
-
                   </Stack>
 
                   <Divider sx={{ my: 3 }} />

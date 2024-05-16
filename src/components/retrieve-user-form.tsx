@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom'
 
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -15,8 +16,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
-import { RootState } from '../store/store';
+import { useAppDispatch } from '../hooks/redux-hooks';
 import { retrieveUser } from '../features/auth/auth-slice';
 import { RetrieveUserData } from '../types/auth';
 
@@ -26,9 +26,8 @@ type Props = {
 
 export const RetrieveUserForm = ({ onToggleForm }: Props) => {
 
-   const user = useAppSelector((state: RootState) => state.auth.user);
-   const isAuth = useAppSelector((state: RootState) => state.auth.isAuth);
    const dispatch = useAppDispatch();
+   const navigate = useNavigate();
    const [showPassword, setShowPassword] = useState<boolean>(false);
 
    const retrieveUserSchema = Yup.object().shape({
@@ -53,15 +52,13 @@ export const RetrieveUserForm = ({ onToggleForm }: Props) => {
       defaultValues,
    });
 
-   useEffect(() => {
-      if (isAuth || user) {
-         // navigate('/tasks')
-      }
-   }, [isAuth, user, dispatch])
-
    const onSubmit = methods.handleSubmit((formData: RetrieveUserData) => {
-      dispatch(retrieveUser());
       localStorage.setItem('userData', JSON.stringify(formData));
+      dispatch(retrieveUser())
+         .unwrap()
+         .then(() => {
+            navigate('/emails');
+         })
       methods.reset();
    });
 
@@ -116,7 +113,6 @@ export const RetrieveUserForm = ({ onToggleForm }: Props) => {
                            ),
                         }}
                      />
-
                   </Stack>
 
                   <Divider sx={{ my: 3 }} />
@@ -128,7 +124,7 @@ export const RetrieveUserForm = ({ onToggleForm }: Props) => {
                      variant="contained"
                      color="primary"
                   >
-                     Register
+                     Login
                   </LoadingButton>
 
                </form>
