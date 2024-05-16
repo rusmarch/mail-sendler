@@ -29,21 +29,20 @@ export const Header = () => {
          >
             <Stack
                direction="row"
-               spacing={1}
+               spacing={2}
                alignItems="center"
             >
-
                {user && (
                   <>
                      <Avatar alt={user.username} />
-                     <Box >
+                     <Stack >
                         <Typography variant="subtitle1" noWrap>
                            {user.username}
                         </Typography>
                         <Typography variant="body2" color="text.secondary" noWrap>
                            {user.email}
                         </Typography>
-                     </Box>
+                     </Stack>
                   </>
                )}
             </Stack>

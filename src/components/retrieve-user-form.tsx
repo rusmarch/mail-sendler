@@ -69,10 +69,15 @@ export const RetrieveUserForm = ({ onToggleForm }: Props) => {
             justifyContent="center"
             sx={{ height: 1, backgroundColor: 'primary.main' }}
          >
-            <Card sx={{ p: 5, width: 1, maxWidth: 420 }} >
+            <Card sx={{
+               p: 5, width: 1,
+               maxWidth: 420,
+               border: 1,
+               borderColor: '#1976d2'
+            }}>
 
-               <Typography variant="h4">Sign In</Typography>
-               <Typography variant="body2" sx={{ my: 2 }}>
+               <Typography variant="h4" textAlign="center">Sign In</Typography>
+               <Typography variant="body2" sx={{ my: 2 }} textAlign="center">
                   Already have an account?
                   <Link
                      variant="subtitle2"
@@ -126,7 +131,6 @@ export const RetrieveUserForm = ({ onToggleForm }: Props) => {
                   >
                      Login
                   </LoadingButton>
-
                </form>
             </Card>
          </Stack>
