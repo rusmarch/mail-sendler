@@ -73,7 +73,6 @@ export const SendEmailForm = () => {
                         helperText={methods.formState.errors.sender?.message}
                         size='small'
                      />
-
                      <TextField
                         fullWidth
                         {...methods.register('recipient')}
@@ -82,7 +81,6 @@ export const SendEmailForm = () => {
                         helperText={methods.formState.errors.recipient?.message}
                         size='small'
                      />
-
                      <TextField
                         fullWidth
                         {...methods.register('subject')}

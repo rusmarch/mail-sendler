@@ -1,15 +1,24 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { emailService } from "./email-service";
-import { Email, EmailListResponse, SendEmailRequest } from "../../types/mails";
+import {
+   Email,
+   EmailListResponse,
+   SendEmailRequest,
+   EmailPagination
+} from "../../types/mails";
 
+type GetEmailsParams = {
+   offset: number;
+   limit: number;
+};
 type emailsState = {
-   email: Email | null,
-   allEmails: Email[] | null;
+   emails: Email[] | null;
+   emailPagination: EmailPagination | null,
 }
 
 const initialState: emailsState = {
-   email: null,
-   allEmails: null,
+   emails: null,
+   emailPagination: null,
 }
 
 export const sendEmail = createAsyncThunk<Email, SendEmailRequest>(
@@ -27,11 +36,11 @@ export const sendEmail = createAsyncThunk<Email, SendEmailRequest>(
    }
 );
 
-export const getAllEmails = createAsyncThunk<EmailListResponse>(
-   'emails/getAllEmails',
-   async (_, { rejectWithValue }) => {
+export const getEmails = createAsyncThunk<EmailListResponse, GetEmailsParams>(
+   'emails/getEmails',
+   async ({ offset, limit }, { rejectWithValue }) => {
       try {
-         const response = await emailService.getAllEmails();
+         const response = await emailService.getEmails(offset, limit);
          return response;
       } catch (err: any) {
          if (!err.response) {
@@ -40,26 +49,27 @@ export const getAllEmails = createAsyncThunk<EmailListResponse>(
          return rejectWithValue(err.response.data);
       }
    }
-)
+);
 
 export const emailSlice = createSlice({
    name: 'emails',
    initialState,
    reducers: {
-      // logout: (state) => {
-      //    state.user = null;
-      // }
+
    },
    extraReducers: (builder) => {
       builder
-         .addCase(getAllEmails.fulfilled, (state, action) => {
-            state.allEmails = action.payload.results;
+         .addCase(getEmails.fulfilled, (state, action) => {
+            state.emails = action.payload.results;
+
+            const pagination = {
+               count: action.payload.count,
+               next: action.payload.next,
+               previous: action.payload.previous,
+            };
+            state.emailPagination = pagination;
          })
-         // .addCase(getAllEmails.fulfilled, (state, action) => {
-         //    state.allEmails = action.payload.results;
-         // })
    }
 });
 
-// export const { logout } = authSlice.actions;
 export default emailSlice.reducer;

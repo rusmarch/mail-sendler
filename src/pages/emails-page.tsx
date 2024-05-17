@@ -24,10 +24,10 @@ export const EmailsPage = () => {
    return (
       <>
          <Header />
-         {/* <Stack> */}
+         <Stack spacing={5} sx={{ my: 10 }}>
             <SendEmailForm />
             <EmailList />
-         {/* </Stack > */}
+         </Stack >
       </>
    );
 }
