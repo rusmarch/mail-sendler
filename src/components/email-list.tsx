@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
@@ -69,7 +69,7 @@ export const EmailList = () => {
          <TablePagination
             component="div"
             rowsPerPage={5}
-            rowsPerPageOptions={[5, 10, 15]}
+            rowsPerPageOptions={[5]}
             count={pagination?.count || 0}
             page={page}
             onPageChange={(_, newPage) => handleChangePage(newPage)}
