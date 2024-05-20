@@ -19,28 +19,24 @@ export const EmailList = () => {
    const emails = useAppSelector((state: RootState) => state.emails.emails);
    const pagination = useAppSelector((state: RootState) => state.emails.emailPagination);
    const dispatch = useAppDispatch();
-   const [offset, setOffset] = useState<number>(0)
-
-   const currentPage = useMemo(() => {
-      if (!pagination || !pagination.next) return 0;
-      const urlParams = new URLSearchParams(pagination.next);
-      const limit = urlParams.get('limit');
-      const offset = urlParams.get('offset');
-      return Math.floor(parseInt(offset || '0', 10) / parseInt(limit || '1', 10));
-   }, [pagination]);
-
-   const handleChangePage = (
-      event: React.MouseEvent<HTMLButtonElement> | null,
-      newPage: number) => {
-      if (event) {
-         const newOffset = newPage * 5;
-         setOffset(newOffset);
-      }
-   }
+   const [page, setPage] = useState<number>(0);
+   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
 
    useEffect(() => {
-      dispatch(getEmails({ offset, limit: 5 }));
-   }, [dispatch, offset])
+      dispatch(getEmails({ offset: page * rowsPerPage, limit: rowsPerPage }));
+   }, [dispatch, rowsPerPage, page]);
+
+   const handleChangePage = (newPage: number) => {
+      setPage(newPage);
+   };
+
+   const handleChangeRowsPerPage = (
+      event: React.ChangeEvent<HTMLInputElement>
+   ) => {
+      const newRowsPerPage = parseInt(event.target.value, 10);
+      setRowsPerPage(newRowsPerPage);
+      setPage(0);
+   };
 
    return (
       <Card sx={{ p: 2, border: 1, borderColor: '#1976d2' }}>
@@ -73,9 +69,11 @@ export const EmailList = () => {
          <TablePagination
             component="div"
             rowsPerPage={5}
+            rowsPerPageOptions={[5, 10, 15]}
             count={pagination?.count || 0}
-            page={currentPage}
-            onPageChange={handleChangePage}
+            page={page}
+            onPageChange={(_, newPage) => handleChangePage(newPage)}
+            onRowsPerPageChange={handleChangeRowsPerPage}
          />
       </Card>
    );
