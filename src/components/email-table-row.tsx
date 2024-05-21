@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -10,8 +9,6 @@ import Collapse from '@mui/material/Collapse';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
-import { RootState } from "../store/store";
 import { Email } from '../types/mails';
 
 type Props = {
