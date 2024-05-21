@@ -8,11 +8,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TablePagination from '@mui/material/TablePagination';
 
 import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
 import { RootState } from "../store/store";
 import { getEmails } from '../features/emails/email-slice';
-import { TablePagination } from '@mui/material';
+import { EmailTableRow } from './email-table-row';
 
 export const EmailList = () => {
 
@@ -53,15 +54,14 @@ export const EmailList = () => {
                      <TableCell align="left">
                         <Typography variant='subtitle1'>Subject</Typography>
                      </TableCell>
+                     <TableCell align="left">
+                        <Typography variant='subtitle1'>Message</Typography>
+                     </TableCell>
                   </TableRow>
                </TableHead>
                <TableBody>
                   {emails && emails.map((email) =>
-                     <TableRow key={email.id}>
-                        <TableCell>{email.id}</TableCell>
-                        <TableCell>{email.recipient}</TableCell>
-                        <TableCell>{email.subject}</TableCell>
-                     </TableRow>
+                     <EmailTableRow key={email.id} email={email} />
                   )}
                </TableBody>
             </Table>
