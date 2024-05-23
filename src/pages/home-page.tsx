@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 
-import Stack from "@mui/material/Stack";
+import Stack from '@mui/material/Stack';
 
 import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
-import { RootState } from '../store/store';
-import { retrieveUser } from '../features/auth/auth-slice';
+import { RootState } from 'src/store/store';
+import { retrieveUser } from 'src/features/auth/auth-slice';
 
-import { CreateUserForm } from "../components/create-user-form";
-import { RetrieveUserForm } from "../components/retrieve-user-form";
+import { CreateUserForm } from 'src/components/create-user-form';
+import { RetrieveUserForm } from 'src/components/retrieve-user-form';
 
 export const HomePage = () => {
 

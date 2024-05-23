@@ -9,7 +9,7 @@ import Collapse from '@mui/material/Collapse';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-import { Email } from '../types/mails';
+import { Email } from 'src/types/mails';
 
 type Props = {
    email: Email;

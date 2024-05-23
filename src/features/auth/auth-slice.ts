@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { authService } from "./auth-service";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { authService } from 'src/features/auth/auth-service';
 import {
    CreateUserRequest,
    CreateUserResponse,
    RetrieveUserResponse,
    UserState,
-} from "../../types/auth";
+} from 'src/types/auth';
 
 type authState = {
    user: UserState,

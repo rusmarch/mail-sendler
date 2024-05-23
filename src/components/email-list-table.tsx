@@ -10,10 +10,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 
-import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
-import { RootState } from "../store/store";
-import { getEmails } from '../features/emails/email-slice';
-import { EmailTableRow } from './email-table-row';
+import { useAppSelector, useAppDispatch } from 'src/hooks/redux-hooks';
+import { RootState } from 'src/store/store';
+import { getEmails } from 'src/features/emails/email-slice';
+import { EmailTableRow } from 'src/components/email-table-row';
 
 export const EmailList = () => {
 

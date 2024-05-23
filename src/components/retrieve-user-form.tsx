@@ -16,9 +16,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import { useAppDispatch } from '../hooks/redux-hooks';
-import { retrieveUser } from '../features/auth/auth-slice';
-import { RetrieveUserData } from '../types/auth';
+import { useAppDispatch } from 'src/hooks/redux-hooks';
+import { retrieveUser } from 'src/features/auth/auth-slice';
+import { RetrieveUserData } from 'src/types/auth';
 
 type Props = {
    onToggleForm: VoidFunction;

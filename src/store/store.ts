@@ -1,6 +1,6 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"; 
-import authSlice from "../features/auth/auth-slice";
-import emailSlice from "../features/emails/email-slice";
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'; 
+import authSlice from 'src/features/auth/auth-slice';
+import emailSlice from 'src/features/emails/email-slice';
 
 export const store = configureStore({
    reducer: {

@@ -1,13 +1,13 @@
-import Stack from "@mui/material/Stack";
-import AppBar from "@mui/material/AppBar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
+import Stack from '@mui/material/Stack';
+import AppBar from '@mui/material/AppBar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
-import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
-import { RootState } from "../store/store";
-import { logout } from "../features/auth/auth-slice";
+import { useAppSelector, useAppDispatch } from 'src/hooks/redux-hooks';
+import { RootState } from 'src/store/store';
+import { logout } from 'src/features/auth/auth-slice';
 
 export const Header = () => {
 

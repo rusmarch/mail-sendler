@@ -1,5 +1,5 @@
-import { $api } from '../../api/axios';
-import { Email, EmailListResponse, SendEmailRequest } from '../../types/mails';
+import { $api } from 'src/api/axios';
+import { Email, EmailListResponse, SendEmailRequest } from 'src/types/mails';
 
 const sendEmail = async (request: SendEmailRequest) => {
    const response = await $api.post<Email>(`/emails/`, request);

@@ -3,7 +3,7 @@ import {
    CreateUserRequest,
    CreateUserResponse,
    RetrieveUserResponse,
-} from '../../types/auth';
+} from 'src/types/auth';
 
 export const apiUrl = `http://68.183.74.14:4005/api`;
 

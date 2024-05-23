@@ -9,9 +9,9 @@ import Divider from '@mui/material/Divider';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
-import { RootState } from '../store/store';
-import { SendEmailRequest } from '../types/mails';
-import { sendEmail } from '../features/emails/email-slice';
+import { RootState } from 'src/store/store';
+import { SendEmailRequest } from 'src/types/mails';
+import { sendEmail } from 'src/features/emails/email-slice';
 
 export const SendEmailForm = () => {
 

@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { emailService } from "./email-service";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { emailService } from 'src/features/emails/email-service';
 import {
    Email,
    EmailListResponse,
    SendEmailRequest,
    EmailPagination
-} from "../../types/mails";
+} from 'src/types/mails';
 
 type GetEmailsParams = {
    offset: number;
