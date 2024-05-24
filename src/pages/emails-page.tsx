@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
 
@@ -10,24 +10,23 @@ import { EmailList } from 'src/components/email-list-table';
 import { SendEmailForm } from 'src/components/send-email-form';
 
 export const EmailsPage = () => {
+  const user = useAppSelector((state: RootState) => state.auth.user);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-   const user = useAppSelector((state: RootState) => state.auth.user);
-   const dispatch = useAppDispatch();
-   const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+    }
+  }, [dispatch, navigate, user]);
 
-   useEffect(() => {
-      if (!user) {
-         navigate('/');
-      }
-   }, [dispatch, navigate, user])
-
-   return (
-      <>
-         <Header />
-         <Stack spacing={5} sx={{ my: 10 }}>
-            <SendEmailForm />
-            <EmailList />
-         </Stack >
-      </>
-   );
-}
+  return (
+    <>
+      <Header />
+      <Stack spacing={5} sx={{ my: 10 }}>
+        <SendEmailForm />
+        <EmailList />
+      </Stack>
+    </>
+  );
+};

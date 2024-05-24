@@ -7,8 +7,8 @@ export type CreateUserData = {
 export type CreateUserRequest = CreateUserData;
 
 export type CreateUserResponse = CreateUserData & {
-   id: number
-}
+  id: number;
+};
 
 export type RetrieveUserData = {
   username: string;

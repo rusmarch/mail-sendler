@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
 
@@ -11,31 +11,31 @@ import { CreateUserForm } from 'src/components/create-user-form';
 import { RetrieveUserForm } from 'src/components/retrieve-user-form';
 
 export const HomePage = () => {
+  const user = useAppSelector((state: RootState) => state.auth.user);
+  const userData = localStorage.getItem('userData');
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [formDisplay, setFormDisplay] = useState<boolean>(true);
 
-   const user = useAppSelector((state: RootState) => state.auth.user);
-   const userData = localStorage.getItem('userData');
-   const dispatch = useAppDispatch();
-   const navigate = useNavigate();
-   const [formDisplay, setFormDisplay] = useState<boolean>(true);
+  useEffect(() => {
+    if (userData && user) {
+      navigate('/emails');
+    } else if (userData && !user) {
+      dispatch(retrieveUser());
+    }
+  }, [userData, dispatch, navigate, user]);
 
-   useEffect(() => {
-      if (userData && user) {
-         navigate('/emails');
-      } else if (userData && !user) {
-         dispatch(retrieveUser());
-      }
-   }, [userData, dispatch, navigate, user])
+  const showForm = (): void => {
+    setFormDisplay((prev) => !prev);
+  };
 
-   const showForm = (): void => {
-      setFormDisplay(prev => !prev);
-   }
-
-   return (
-      <Stack alignItems='center' >
-         {formDisplay
-            ? <RetrieveUserForm onToggleForm={() => showForm()} />
-            : <CreateUserForm onToggleForm={() => showForm()} />
-         }
-      </Stack>
-   );
-}
+  return (
+    <Stack alignItems="center">
+      {formDisplay ? (
+        <RetrieveUserForm onToggleForm={() => showForm()} />
+      ) : (
+        <CreateUserForm onToggleForm={() => showForm()} />
+      )}
+    </Stack>
+  );
+};

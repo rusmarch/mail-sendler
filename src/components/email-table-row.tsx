@@ -12,40 +12,35 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Email } from 'src/types/mails';
 
 type Props = {
-   email: Email;
-}
+  email: Email;
+};
 
 export const EmailTableRow = ({ email }: Props) => {
+  const [open, setOpen] = useState(false);
 
-   const [open, setOpen] = useState(false);
-
-   return (
-      <>
-         <TableRow >
-            <TableCell>{email.id}</TableCell>
-            <TableCell>{email.recipient}</TableCell>
-            <TableCell>{email.subject}</TableCell>
-            <TableCell>
-               <IconButton
-                  aria-label="expand row"
-                  size="small"
-                  onClick={() => setOpen(!open)}
-               >
-                  {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-               </IconButton>
-            </TableCell>
-         </TableRow>
-         <TableRow>
-            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-               <Collapse in={open} timeout="auto" unmountOnExit>
-                  <Box sx={{ margin: 5 }}>
-                     <Typography variant="subtitle2" gutterBottom component="div">
-                        {email.message}
-                     </Typography>
-                  </Box>
-               </Collapse>
-            </TableCell>
-         </TableRow>
-      </>
-   );
-}
+  return (
+    <>
+      <TableRow>
+        <TableCell>{email.id}</TableCell>
+        <TableCell>{email.recipient}</TableCell>
+        <TableCell>{email.subject}</TableCell>
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 5 }}>
+              <Typography variant="subtitle2" gutterBottom component="div">
+                {email.message}
+              </Typography>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
+  );
+};

@@ -10,52 +10,45 @@ import { RootState } from 'src/store/store';
 import { logout } from 'src/features/auth/auth-slice';
 
 export const Header = () => {
+  const user = useAppSelector((state: RootState) => state.auth.user);
+  const dispatch = useAppDispatch();
 
-   const user = useAppSelector((state: RootState) => state.auth.user)
-   const dispatch = useAppDispatch();
+  const onLogout = (): void => {
+    localStorage.removeItem('userData');
+    dispatch(logout());
+  };
 
-   const onLogout = (): void => {
-      localStorage.removeItem('userData');
-      dispatch(logout());
-   }
-
-   return (
-      <AppBar>
-         <Stack
-            direction="row"
-            justifyContent="space-between"
-            sx={{ px: 2, py: 1, backgroundColor: 'primary.main' }}
-         >
-            <Stack
-               direction="row"
-               spacing={2}
-               alignItems="center"
-            >
-               {user && (
-                  <>
-                     <Avatar alt={user.username} />
-                     <Stack >
-                        <Typography variant="subtitle1" noWrap>
-                           {user.username}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" noWrap>
-                           {user.email}
-                        </Typography>
-                     </Stack>
-                  </>
-               )}
-            </Stack>
-            <Stack direction="row" alignContent="center" alignItems="center">
-               <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={onLogout}
-               >
-                  <LogoutOutlinedIcon />
-                  <Typography variant="subtitle2" color="#fff">Logout</Typography>
-               </Button>
-            </Stack>
-         </Stack>
-      </AppBar>
-   );
-}
+  return (
+    <AppBar>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        sx={{ px: 2, py: 1, backgroundColor: 'primary.main' }}
+      >
+        <Stack direction="row" spacing={2} alignItems="center">
+          {user && (
+            <>
+              <Avatar alt={user.username} />
+              <Stack>
+                <Typography variant="subtitle1" noWrap>
+                  {user.username}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" noWrap>
+                  {user.email}
+                </Typography>
+              </Stack>
+            </>
+          )}
+        </Stack>
+        <Stack direction="row" alignContent="center" alignItems="center">
+          <Button variant="contained" color="secondary" onClick={onLogout}>
+            <LogoutOutlinedIcon />
+            <Typography variant="subtitle2" color="#fff">
+              Logout
+            </Typography>
+          </Button>
+        </Stack>
+      </Stack>
+    </AppBar>
+  );
+};
