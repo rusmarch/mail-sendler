@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { emailService } from 'src/features/emails/email-service';
 import { Email, EmailListResponse, SendEmailRequest, EmailPagination } from 'src/types/mails';
 
@@ -22,7 +23,8 @@ export const sendEmail = createAsyncThunk<Email, SendEmailRequest>(
     try {
       const response = await emailService.sendEmail(request);
       return response;
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as AxiosError;
       if (!err.response) {
         throw err;
       }
@@ -37,7 +39,8 @@ export const getEmails = createAsyncThunk<EmailListResponse, GetEmailsParams>(
     try {
       const response = await emailService.getEmails(offset, limit);
       return response;
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as AxiosError;
       if (!err.response) {
         throw err;
       }

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
@@ -17,17 +16,18 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useAppDispatch } from 'src/hooks/redux-hooks';
+import { useBoolean } from 'src/hooks/use-boolean';
 import { retrieveUser } from 'src/features/auth/auth-slice';
 import { RetrieveUserData } from 'src/types/auth';
 
 type Props = {
-  onToggleForm: VoidFunction;
+  onToggleForm: () => void;
 };
 
 export const RetrieveUserForm = ({ onToggleForm }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const showPassword = useBoolean(false);
 
   const retrieveUserSchema = Yup.object().shape({
     username: Yup.string()
@@ -108,12 +108,12 @@ export const RetrieveUserForm = ({ onToggleForm }: Props) => {
                 label="Password"
                 error={!!methods.formState.errors.password}
                 helperText={methods.formState.errors.password?.message}
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword.value ? 'text' : 'password'}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                        {showPassword ? (
+                      <IconButton onClick={() => showPassword.onToggle()} edge="end">
+                        {showPassword.value ? (
                           <VisibilityIcon color="disabled" />
                         ) : (
                           <VisibilityOffIcon color="disabled" />

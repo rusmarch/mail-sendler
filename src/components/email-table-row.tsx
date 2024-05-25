@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -10,13 +8,14 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import { Email } from 'src/types/mails';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 type Props = {
   email: Email;
 };
 
 export const EmailTableRow = ({ email }: Props) => {
-  const [open, setOpen] = useState(false);
+  const open = useBoolean(false);
 
   return (
     <>
@@ -25,14 +24,14 @@ export const EmailTableRow = ({ email }: Props) => {
         <TableCell>{email.recipient}</TableCell>
         <TableCell>{email.subject}</TableCell>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          <IconButton aria-label="expand row" size="small" onClick={() => open.onToggle()}>
+            {open.value ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
+          <Collapse in={open.value} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 5 }}>
               <Typography variant="subtitle2" gutterBottom component="div">
                 {email.message}

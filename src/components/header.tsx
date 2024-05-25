@@ -13,7 +13,7 @@ export const Header = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
   const dispatch = useAppDispatch();
 
-  const onLogout = (): void => {
+  const onLogout = () => {
     localStorage.removeItem('userData');
     dispatch(logout());
   };

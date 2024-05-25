@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { authService } from 'src/features/auth/auth-service';
 import {
   CreateUserRequest,
@@ -22,7 +23,8 @@ export const createUser = createAsyncThunk<CreateUserResponse, CreateUserRequest
       const response = await authService.createUser(request);
       localStorage.setItem('userData', JSON.stringify(response));
       return response;
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as AxiosError;
       if (!err.response) {
         throw err;
       }
@@ -37,7 +39,8 @@ export const retrieveUser = createAsyncThunk<RetrieveUserResponse>(
     try {
       const response = await authService.retrieveUser();
       return response;
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as AxiosError;
       if (!err.response) {
         throw err;
       }
