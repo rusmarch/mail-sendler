@@ -24,7 +24,7 @@ export const EmailTableRow = ({ email }: Props) => {
         <TableCell>{email.recipient}</TableCell>
         <TableCell>{email.subject}</TableCell>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => open.onToggle()}>
+          <IconButton aria-label="expand row" size="small" onClick={open.onToggle}>
             {open.value ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>

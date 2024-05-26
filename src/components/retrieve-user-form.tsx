@@ -112,7 +112,7 @@ export const RetrieveUserForm = ({ onToggleForm }: Props) => {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={() => showPassword.onToggle()} edge="end">
+                      <IconButton onClick={showPassword.onToggle} edge="end">
                         {showPassword.value ? (
                           <VisibilityIcon color="disabled" />
                         ) : (

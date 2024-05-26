@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
 
-import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
+import { useAppSelector, useAppDispatch } from 'src/hooks/redux-hooks';
 import { RootState } from 'src/store/store';
 import { retrieveUser } from 'src/features/auth/auth-slice';
 
@@ -29,9 +29,9 @@ export const HomePage = () => {
   return (
     <Stack alignItems="center">
       {isRetrieveFormDisplay.value ? (
-        <RetrieveUserForm onToggleForm={() => isRetrieveFormDisplay.onToggle()} />
+        <RetrieveUserForm onToggleForm={isRetrieveFormDisplay.onToggle} />
       ) : (
-        <CreateUserForm onToggleForm={() => isRetrieveFormDisplay.onToggle()} />
+        <CreateUserForm onToggleForm={isRetrieveFormDisplay.onToggle} />
       )}
     </Stack>
   );

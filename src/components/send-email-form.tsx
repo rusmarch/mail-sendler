@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from 'src/hooks/redux-hooks';
 import { RootState } from 'src/store/store';
 import { SendEmailRequest } from 'src/types/mails';
 import { sendEmail } from 'src/features/emails/email-slice';

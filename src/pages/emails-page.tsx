@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
 
-import { useAppSelector, useAppDispatch } from '../hooks/redux-hooks';
+import { useAppSelector, useAppDispatch } from 'src/hooks/redux-hooks';
 import { RootState } from 'src/store/store';
 import { Header } from 'src/components/header';
 import { EmailList } from 'src/components/email-list-table';
